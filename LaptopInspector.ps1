@@ -46,15 +46,15 @@ function Invoke-LIPDiagnostics {
 
 function Show-LIPSummary($data) {
     Write-Host "`nSystem" -ForegroundColor Yellow
-    $data.Get-LIPSystemInfo | Format-List
+    $data.'Get-LIPSystemInfo' | Format-List
     Write-Host 'CPU' -ForegroundColor Yellow
-    $data.Get-LIPCPUInfo | Format-List
+    $data.'Get-LIPCPUInfo' | Format-List
     Write-Host 'Memory' -ForegroundColor Yellow
-    $data.Get-LIPRAMInfo | Format-List
+    $data.'Get-LIPRAMInfo' | Format-List
     Write-Host 'Storage' -ForegroundColor Yellow
-    $data.Get-LIPStorageInfo | Format-Table -AutoSize
+    $data.'Get-LIPStorageInfo' | Format-Table -AutoSize
     Write-Host 'Battery' -ForegroundColor Yellow
-    $data.Get-LIPBatteryInfo | Format-List
+    $data.'Get-LIPBatteryInfo' | Format-List
     Write-Host 'Health Score' -ForegroundColor Yellow
     if (Get-Command Get-LIPHealthScore -ErrorAction SilentlyContinue) { Get-LIPHealthScore -Results $data | Format-List }
 }
