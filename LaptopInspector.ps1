@@ -18,6 +18,19 @@ function Write-LIPHeader {
     Write-Host '==================================================' -ForegroundColor Cyan
 }
 
+function Show-LIPPleaseWait {
+    Clear-Host
+    Write-Host '==================================================' -ForegroundColor Cyan
+    Write-Host '              LaptopInspectorPro v0.4' -ForegroundColor Cyan
+    Write-Host '==================================================' -ForegroundColor Cyan
+    Write-Host ''
+    Write-Host '          Please wait...' -ForegroundColor Yellow
+    Write-Host '       Inspecting your device' -ForegroundColor Cyan
+    Write-Host ''
+    Write-Host 'Collecting hardware and system information.' -ForegroundColor DarkGray
+    Write-Host 'Please do not close this window.' -ForegroundColor DarkGray
+}
+
 function Get-LIPConfig {
     if (Test-Path $script:ConfigPath) {
         try { return Get-Content $script:ConfigPath -Raw | ConvertFrom-Json } catch { }
@@ -90,7 +103,6 @@ function Show-LIPInspectionSummary($data) {
     $data.'Get-LIPDriverSummary' | Format-List
     Write-Host 'THERMALS' -ForegroundColor Yellow
     $data.'Get-LIPThermalInfo'.Zones | Format-Table -AutoSize
-
     $score = Get-LIPInspectionScore $data
     Write-Host "`n================ HEALTH SCORE ================" -ForegroundColor Cyan
     if($score){
@@ -189,7 +201,9 @@ function Show-LIPPurchaseResult($assessment) {
 }
 
 function Invoke-LIPPurchase {
+    Show-LIPPleaseWait
     $data = Invoke-LIPInspection
+    Clear-Host
     $price = Read-Host 'Enter asking price in INR'
     $parsed = $null
     if([double]::TryParse($price,[ref]$parsed) -and $parsed -gt 0){ Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data -AskingPriceINR $parsed) }
@@ -204,18 +218,22 @@ if ($Mode -eq 'Interactive') {
         Write-Host '3. Exit'
         $choice = Read-Host 'Select an option'
         switch ($choice) {
-            '1' { $data = Invoke-LIPInspection; Show-LIPInspection $data; Read-Host 'Press Enter to continue' }
+            '1' { Show-LIPPleaseWait; $data = Invoke-LIPInspection; Show-LIPInspection $data }
             '2' { Invoke-LIPPurchase; Read-Host 'Press Enter to continue' }
             '3' { break }
         }
     } while ($true)
 } elseif ($Mode -eq 'Inspection') {
+    Show-LIPPleaseWait
     Show-LIPInspection (Invoke-LIPInspection)
 } elseif ($Mode -eq 'Purchase') {
+    Show-LIPPleaseWait
     $data = Invoke-LIPInspection
     if($null -eq $AskingPriceINR -or $AskingPriceINR -le 0){ throw 'Purchase mode requires -AskingPriceINR with a value greater than zero.' }
+    Clear-Host
     Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data -AskingPriceINR $AskingPriceINR)
 } elseif ($Mode -eq 'Report') {
+    Show-LIPPleaseWait
     $data = Invoke-LIPInspection
     if (Get-Command Export-LIPReport -ErrorAction SilentlyContinue) { Export-LIPReport -Results $data -OutputPath $ReportPath }
 }
