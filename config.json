@@ -1,0 +1,23 @@
+{
+  "Application": {
+    "Name": "LaptopInspectorPro",
+    "Version": "0.1.0"
+  },
+  "Reports": {
+    "Directory": "Reports",
+    "GenerateJson": true,
+    "GenerateHtml": true,
+    "GenerateText": true
+  },
+  "Scoring": {
+    "CPU": 15,
+    "GPU": 15,
+    "RAM": 10,
+    "Storage": 15,
+    "Battery": 15,
+    "Display": 10,
+    "Network": 5,
+    "Security": 10,
+    "System": 5
+  }
+}
