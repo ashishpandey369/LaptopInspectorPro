@@ -1,23 +1,28 @@
 {
   "Application": {
     "Name": "LaptopInspectorPro",
-    "Version": "0.1.0"
+    "Version": "0.2.0"
   },
-  "Reports": {
-    "Directory": "Reports",
-    "GenerateJson": true,
-    "GenerateHtml": true,
-    "GenerateText": true
+  "Diagnostics": {
+    "Quick": ["System", "Windows", "CPU", "GPU", "RAM", "Disk", "Storage", "Battery", "Display", "Audio", "Camera", "Network", "Ports", "Touch", "Security"],
+    "Full": ["System", "Windows", "CPU", "GPU", "RAM", "Disk", "Storage", "Battery", "Display", "Audio", "Camera", "Network", "Ports", "Touch", "Security", "StorageHealth", "Drivers", "Thermals"]
   },
   "Scoring": {
     "CPU": 15,
-    "GPU": 15,
+    "GPU": 12,
     "RAM": 10,
-    "Storage": 15,
+    "Storage": 18,
     "Battery": 15,
-    "Display": 10,
+    "Display": 8,
     "Network": 5,
-    "Security": 10,
+    "Security": 8,
+    "Drivers": 5,
+    "Thermals": 4,
     "System": 5
+  },
+  "Reports": {
+    "GenerateJSON": true,
+    "GenerateTXT": true,
+    "GenerateHTML": true
   }
 }
