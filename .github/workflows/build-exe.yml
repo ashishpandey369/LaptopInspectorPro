@@ -1,0 +1,50 @@
+name: Build LaptopInspectorPro EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PS2EXE
+        shell: pwsh
+        run: Install-Module -Name ps2exe -Scope CurrentUser -Force
+
+      - name: Build EXE
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Invoke-ps2exe `
+            -inputFile .\LaptopInspector.ps1 `
+            -outputFile .\dist\LaptopInspectorPro.exe `
+            -title 'LaptopInspectorPro' `
+            -description 'Windows Laptop Diagnostic Toolkit' `
+            -company 'Ashish Pandey' `
+            -product 'LaptopInspectorPro' `
+            -version '0.4.0.0' `
+            -copyright 'Copyright (c) Ashish Pandey'
+
+      - name: Package application
+        shell: pwsh
+        run: |
+          Copy-Item .\config.json .\dist\config.json
+          Copy-Item .\README.md .\dist\README.md
+          Copy-Item .\LICENSE .\dist\LICENSE
+          Copy-Item .\modules .\dist\modules -Recurse
+          if (Test-Path .\Assets) { Copy-Item .\Assets .\dist\Assets -Recurse }
+          Compress-Archive -Path .\dist\* -DestinationPath .\LaptopInspectorPro-Windows.zip -Force
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LaptopInspectorPro-Windows
+          path: |
+            dist/LaptopInspectorPro.exe
+            LaptopInspectorPro-Windows.zip
