@@ -1,6 +1,6 @@
-
-function Get-DiskInfo {
- Get-CimInstance Win32_DiskDrive | ForEach-Object{
-  Write-Host ("Disk       : {0} ({1:N0} GB) Status:{2}" -f $_.Model,($_.Size/1GB),$_.Status)
- }
+function Get-LIPDiskInfo {
+    try {
+        $disks=@(Get-CimInstance Win32_DiskDrive)
+        @($disks | ForEach-Object { [pscustomobject]@{ Status='OK'; Model=$_.Model; Interface=$_.InterfaceType; SizeGB=[math]::Round($_.Size/1GB,2); MediaType=$_.MediaType; SerialNumber=$_.SerialNumber } })
+    } catch { [pscustomobject]@{ Status='Unavailable'; Error=$_.Exception.Message } }
 }
