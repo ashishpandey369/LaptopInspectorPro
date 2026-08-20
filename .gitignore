@@ -1,0 +1,29 @@
+# Generated reports
+Reports/
+*.html
+*.jsonl
+*.log
+
+# PowerShell/editor temp files
+*.ps1~
+*.bak
+*.tmp
+
+# Local configuration
+*.local.json
+.env
+.env.*
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Build/release output
+bin/
+obj/
+dist/
+*.exe
