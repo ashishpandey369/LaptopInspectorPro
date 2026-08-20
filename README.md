@@ -1,94 +1,145 @@
 # LaptopInspectorPro
 
-LaptopInspectorPro is a modular PowerShell toolkit for inspecting Windows laptops and producing a practical health assessment.
+Windows laptop diagnostic and health-assessment toolkit built with PowerShell.
 
-> Current release: **0.1.0 — Foundation + hardware inspection**
+## Current version
 
-## What it does now
+**v0.2.0 — Deep Diagnostics Foundation**
 
-- Detects laptop manufacturer, model and BIOS information
-- Reports Windows version and build
-- Inspects CPU cores, threads, clocks and current load
-- Detects GPUs, VRAM, drivers and display mode
-- Reports installed/usable RAM and memory speed
-- Lists physical disks and logical storage usage
-- Estimates battery health when Windows exposes design/full-charge capacity
-- Detects displays, audio devices, cameras, network adapters and common peripheral devices
-- Checks Secure Boot, TPM and firewall state where available
-- Calculates a first-pass component/overall health score
-- Generates JSON, TXT and HTML inspection reports
+LaptopInspectorPro is designed to inspect a Windows laptop's hardware, software environment, health indicators, and security posture, then turn the results into a readable health score and reports.
+
+## Features
+
+### Hardware
+- CPU information and current load
+- GPU / display adapter detection
+- RAM capacity and usage
+- Physical disk detection
+- Volume/storage usage
+- Battery capacity health, wear and cycle count when exposed by Windows
+- Display information
+- Audio devices
+- Camera devices
+- Touch / digitizer detection
+- Network adapters
+- USB, Bluetooth and COM peripherals
+
+### Deep diagnostics
+- Physical storage health through `Get-PhysicalDisk`
+- Storage reliability counters when supported
+- Disk temperature / wear / power-on hours when exposed
+- Plug-and-Play device problem detection
+- Thermal-zone readings when Windows exposes ACPI data
+- TPM / Secure Boot / firewall checks
+
+### Scoring
+The health engine combines component results into a weighted overall score from 0–100 and assigns a grade:
+
+- **90–100:** Excellent
+- **80–89:** Good
+- **70–79:** Fair
+- **60–69:** Needs Attention
+- **Below 60:** Poor
+
+The score is intentionally diagnostic rather than a benchmark score. Missing hardware telemetry is excluded rather than treated as a failure.
+
+### Reports
+Full inspections can generate:
+
+- JSON — machine-readable complete results
+- TXT — human-readable report
+- HTML — browser-friendly report
 
 ## Run
 
-Open PowerShell in the repository directory:
+Open PowerShell in the repository folder:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 .\LaptopInspector.ps1
 ```
 
-Non-interactive modes:
+### Quick mode
 
 ```powershell
 .\LaptopInspector.ps1 -Mode Quick
+```
+
+### Full diagnostics
+
+```powershell
 .\LaptopInspector.ps1 -Mode Full
+```
+
+### Generate a full report
+
+```powershell
 .\LaptopInspector.ps1 -Mode Report
 ```
+
+Or choose a report directory/path with `-ReportPath`.
 
 ## Architecture
 
 ```text
-LaptopInspector.ps1
-        |
-        +-- modules/CPU.ps1
-        +-- modules/GPU.ps1
-        +-- modules/RAM.ps1
-        +-- modules/Disk.ps1
-        +-- modules/Storage.ps1
-        +-- modules/Battery.ps1
-        +-- modules/Display.ps1
-        +-- modules/Audio.ps1
-        +-- modules/Camera.ps1
-        +-- modules/Network.ps1
-        +-- modules/Ports.ps1
-        +-- modules/Touch.ps1
-        +-- modules/Security.ps1
-        +-- modules/System.ps1
-        +-- modules/Windows.ps1
-        |
-        +-- Score.ps1
-        +-- Report.ps1
-        |
-        +-- config.json
+LaptopInspectorPro/
+├── LaptopInspector.ps1       # application controller
+├── config.json               # diagnostic/scoring configuration
+├── modules/
+│   ├── Audio.ps1
+│   ├── Battery.ps1
+│   ├── CPU.ps1
+│   ├── Camera.ps1
+│   ├── Disk.ps1
+│   ├── Display.ps1
+│   ├── Drivers.ps1
+│   ├── GPU.ps1
+│   ├── Network.ps1
+│   ├── Ports.ps1
+│   ├── RAM.ps1
+│   ├── Report.ps1
+│   ├── Score.ps1
+│   ├── Security.ps1
+│   ├── Storage.ps1
+│   ├── StorageHealth.ps1
+│   ├── System.ps1
+│   ├── Thermals.ps1
+│   ├── Touch.ps1
+│   └── Windows.ps1
+└── docs/
+    └── ARCHITECTURE.md
 ```
+
+## Design principles
+
+1. **Read-only diagnostics first.** Inspection should not modify system configuration.
+2. **Graceful degradation.** Hardware telemetry varies by laptop vendor and Windows edition; unavailable sensors are reported as unavailable.
+3. **Modular collectors.** Each subsystem is isolated so it can be improved without rewriting the application controller.
+4. **Machine-readable output.** Reports are structured so future UI and web dashboards can consume them.
+5. **Explainable scoring.** Scores are component-based and weighted, not a mystery number.
 
 ## Roadmap
 
-### v0.2
-- More robust storage/SMART health detection
-- Better battery cycle and wear reporting
-- Driver inventory and problem-device detection
-- Better Wi-Fi and Bluetooth diagnostics
-- Improved display/monitor information
-
 ### v0.3
-- Hardware stress/benchmark hooks
-- Thermal monitoring where supported
-- Component scoring improvements
-- Used-laptop price and Buy/Negotiate/Skip analysis
+- SMART/NVMe diagnostics improvements
+- Better battery telemetry
+- Driver version inventory
+- Windows Update health
+- Device Manager problem details
+- Improved thermal telemetry
 
-### v1.0
-- Polished interactive interface
-- Full HTML report dashboard
-- PDF export
-- Automated test suite
-- Packaged release builds
-- Complete documentation
+### v0.4
+- Used-laptop purchase assessment
+- BUY / NEGOTIATE / SKIP recommendation
+- Asking-price vs estimated-value workflow
+- Stronger component-level scoring
 
-## Safety and privacy
-
-LaptopInspectorPro is intended for read-only inspection. It does not intentionally collect passwords, browser credentials, or other secrets. Some Windows hardware information requires administrator privileges or vendor-specific interfaces and may therefore be reported as unavailable.
+### v0.5+
+- Advanced benchmarks and safe stress tests
+- Interactive HTML dashboard
+- PDF reports
+- Packaging and release automation
 
 ## License
 
-MIT License — see `LICENSE`.
+MIT. See `LICENSE`.
