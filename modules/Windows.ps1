@@ -1,5 +1,6 @@
-
-function Get-WindowsInfo {
- $lic=Get-CimInstance SoftwareLicensingProduct | Where-Object {$_.LicenseStatus -eq 1 -and $_.PartialProductKey}
- if($lic){Write-Host "Windows    : Activated"} else {Write-Host "Windows    : Not Activated"}
+function Get-LIPWindowsInfo {
+    try {
+        $os=Get-CimInstance Win32_OperatingSystem
+        [pscustomobject]@{ Status='OK'; Caption=$os.Caption; Version=$os.Version; Build=$os.BuildNumber; Architecture=$os.OSArchitecture; InstallDate=$os.InstallDate; LastBoot=$os.LastBootUpTime }
+    } catch { [pscustomobject]@{ Status='Unavailable'; Error=$_.Exception.Message } }
 }
