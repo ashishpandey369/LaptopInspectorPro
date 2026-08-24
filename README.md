@@ -34,7 +34,7 @@ The launcher automatically requests Administrator privileges if required and sta
 
 **Inspection** performs the complete laptop diagnostic and shows hardware information, health indicators, component scores, and the overall health score. It does not show purchasing recommendations.
 
-**Purchasing** performs the inspection and then asks for the laptop's asking price before showing the purchase assessment.
+**Purchasing** performs the inspection, asks for the laptop's asking price, and gives a simple BUY / DO NOT BUY decision based on the inspection health score. The asking price is displayed for context; LaptopInspectorPro no longer calculates a fair value or performs price negotiation suggestions.
 
 > **Important:** Run the launcher as Administrator for the most complete Windows hardware, device, security, and system information available on the machine.
 
@@ -88,17 +88,19 @@ Inspection mode is strictly diagnostic. It shows:
 
 After the summary, you can choose **View each result** to open detailed information for every subsystem.
 
-Inspection does **not** show BUY, NEGOTIATE, SKIP, asking-price, or fair-value results.
+Inspection does **not** show BUY, DO NOT BUY, asking-price, or purchase-decision results.
 
 ### Purchasing
-Purchasing is a separate workflow. It asks for the laptop's asking price and combines that price with the inspection results to provide:
+Purchasing is a separate workflow. It asks for the laptop's asking price and provides:
 
-- Overall health
-- Risk flags
-- BUY / NEGOTIATE / SKIP recommendation
-- Price assessment
+- Overall health score
+- BUY / DO NOT BUY flag
+- Clear recommendation message
+- Confidence level
+- Inspection risk flags
+- Stated asking price for context
 
-The fair-value calculation is an inspection heuristic, not a live market-price lookup.
+The purchasing workflow **does not calculate an estimated fair value, market value, price multiplier, or negotiation price**. The decision is based on the laptop's diagnostic health assessment.
 
 ### Scoring
 The health engine combines component results into a weighted overall score from 0–100 and assigns a grade:
