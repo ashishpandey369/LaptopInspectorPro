@@ -2,7 +2,7 @@
 
 > **A PowerShell-based Windows laptop inspection and purchase-decision toolkit.**
 >
-> Inspect the laptop. Understand its health. Enter the asking price. Get a clear **BUY / DO NOT BUY** decision.
+> Inspect the laptop. Understand its health. Get a clear **BUY / DO NOT BUY** decision.
 
 LaptopInspectorPro helps you inspect a Windows laptop before buying it. It collects hardware, system, security, storage, battery, driver, and thermal information, converts the results into an explainable health score, and provides a simple purchase decision based on the inspection.
 
@@ -16,16 +16,15 @@ Perform a complete diagnostic inspection and see CPU, GPU, RAM, storage, battery
 
 ### 🛒 Purchasing
 
-The purchasing workflow runs the inspection, asks for the seller's asking price, and provides:
+The purchasing workflow runs the inspection and provides:
 
 - Overall health score
 - **BUY / DO NOT BUY** flag
 - Clear recommendation message
 - Confidence level
 - Detected inspection risks
-- Stated asking price for context
 
-The project deliberately **does not calculate fair value, market value, price multipliers, or negotiation prices**. The tool evaluates the laptop's condition instead of pretending to know its live market price.
+The project deliberately **does not use an asking price, fair-value calculation, market-value estimate, price multiplier, or negotiation price**. The purchase decision is based entirely on the laptop's diagnostic health.
 
 ---
 
@@ -45,8 +44,6 @@ Score ≥ 85 ?
  BUY          DO NOT BUY
 ```
 
-The asking price is displayed in the final result, but it is **not converted into an artificial fair price**.
-
 Example:
 
 ```text
@@ -54,13 +51,11 @@ Example:
 Overall health : 91/100
 Decision       : BUY
 Confidence     : High
-Asking price   : ₹28,000
 
-BUY — The laptop passed the health assessment with an overall score
-of 91/100. The stated asking price is ₹28,000.
+BUY — The laptop passed the health assessment with an overall score of 91/100.
 ```
 
-**LaptopInspectorPro evaluates the laptop; the buyer decides whether the asking price makes sense for their situation.**
+The tool intentionally keeps the final purchasing decision simple: **inspect the laptop, evaluate its health, and show whether it meets the BUY threshold.**
 
 ---
 
@@ -109,19 +104,29 @@ The score is diagnostic, not a synthetic benchmark score. When Windows cannot ex
 
 ---
 
-## ▶️ Run LaptopInspectorPro
+## 📥 Download and Run — Recommended for Users
 
-Clone the repository or download the repository source from GitHub and extract it locally.
+You do **not** need to install PowerShell development tools or manually run the source code.
 
-Open the project folder and run:
+### 1. Download the project
+
+**[⬇️ Download LaptopInspectorPro ZIP](https://github.com/ashishpandey369/LaptopInspectorPro/archive/refs/heads/main.zip)**
+
+Download the ZIP, then extract it anywhere on your Windows PC.
+
+### 2. Start LaptopInspectorPro
+
+Open the extracted folder and find:
 
 ```text
 Run_LaptopInspectorPro_AsAdmin.bat
 ```
 
-Right-click the launcher and choose **Run as administrator**. The launcher requests Administrator privileges when required and starts LaptopInspectorPro.
+**Right-click `Run_LaptopInspectorPro_AsAdmin.bat` → Run as administrator.**
 
-Then choose:
+The launcher automatically requests Administrator privileges if required and starts LaptopInspectorPro.
+
+### 3. Choose a workflow
 
 ```text
 1. Inspection
@@ -151,7 +156,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 ### Purchasing mode
 
 ```powershell
-.\LaptopInspector.ps1 -Mode Purchase -AskingPriceINR 28000
+.\LaptopInspector.ps1 -Mode Purchase
 ```
 
 ### Generate a report
@@ -216,7 +221,7 @@ LaptopInspectorPro/
 3. **Modular collectors** — Each subsystem is isolated so it can be improved independently.
 4. **Machine-readable output** — Reports are structured for future UI and web dashboards.
 5. **Explainable scoring** — The overall score comes from component-level health data.
-6. **Honest purchase guidance** — The tool reports laptop health and gives a BUY / DO NOT BUY flag without pretending to know a live market price.
+6. **Honest purchase guidance** — The tool reports laptop health and gives a BUY / DO NOT BUY flag without pretending to know a market price.
 
 ---
 
