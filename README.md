@@ -8,6 +8,40 @@ LaptopInspectorPro helps you inspect a Windows laptop before buying it. It colle
 
 ---
 
+## 📥 Download and Run — Recommended for Users
+
+You do **not** need to install PowerShell development tools or manually run the source code.
+
+### 1. Download the project
+
+**[⬇️ Download LaptopInspectorPro ZIP](https://github.com/ashishpandey369/LaptopInspectorPro/archive/refs/heads/main.zip)**
+
+Download the ZIP, then extract it anywhere on your Windows PC.
+
+### 2. Start LaptopInspectorPro
+
+Open the extracted folder and find:
+
+```text
+Run_LaptopInspectorPro_AsAdmin.bat
+```
+
+**Right-click `Run_LaptopInspectorPro_AsAdmin.bat` → Run as administrator.**
+
+The launcher automatically requests Administrator privileges if required and starts LaptopInspectorPro.
+
+### 3. Choose a workflow
+
+```text
+1. Inspection
+2. Purchasing
+3. Exit
+```
+
+> **Important:** Administrator access is recommended for the most complete hardware, device, security and system information available from Windows.
+
+---
+
 ## 🚀 What LaptopInspectorPro Does
 
 ### 🔍 Inspection
@@ -101,40 +135,6 @@ The score is diagnostic, not a synthetic benchmark score. When Windows cannot ex
 - Thermal-zone readings when Windows exposes ACPI data
 - TPM / Secure Boot / firewall checks
 - Driver health summary
-
----
-
-## 📥 Download and Run — Recommended for Users
-
-You do **not** need to install PowerShell development tools or manually run the source code.
-
-### 1. Download the project
-
-**[⬇️ Download LaptopInspectorPro ZIP](https://github.com/ashishpandey369/LaptopInspectorPro/archive/refs/heads/main.zip)**
-
-Download the ZIP, then extract it anywhere on your Windows PC.
-
-### 2. Start LaptopInspectorPro
-
-Open the extracted folder and find:
-
-```text
-Run_LaptopInspectorPro_AsAdmin.bat
-```
-
-**Right-click `Run_LaptopInspectorPro_AsAdmin.bat` → Run as administrator.**
-
-The launcher automatically requests Administrator privileges if required and starts LaptopInspectorPro.
-
-### 3. Choose a workflow
-
-```text
-1. Inspection
-2. Purchasing
-3. Exit
-```
-
-> **Important:** Administrator access is recommended for the most complete hardware, device, security and system information available from Windows.
 
 ---
 
