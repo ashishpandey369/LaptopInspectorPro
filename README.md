@@ -1,59 +1,94 @@
 # LaptopInspectorPro
 
-Windows laptop diagnostic and health-assessment toolkit built with PowerShell.
+> **A PowerShell-based Windows laptop inspection and purchase-decision toolkit.**
+>
+> Inspect the laptop. Understand its health. Enter the asking price. Get a clear **BUY / DO NOT BUY** decision.
 
-## Download and Run — Recommended for Users
-
-You do **not** need to install PowerShell development tools or manually run the source code.
-
-### 1. Download the project
-
-**[⬇️ Download LaptopInspectorPro ZIP](https://github.com/ashishpandey369/LaptopInspectorPro/archive/refs/heads/main.zip)**
-
-Download the ZIP, then extract it anywhere on your Windows PC.
-
-### 2. Start LaptopInspectorPro
-
-Open the extracted folder and find:
-
-```text
-Run_LaptopInspectorPro_AsAdmin.bat
-```
-
-**Right-click `Run_LaptopInspectorPro_AsAdmin.bat` → Run as administrator.**
-
-The launcher automatically requests Administrator privileges if required and starts LaptopInspectorPro.
-
-### 3. Choose what you want to do
-
-```text
-1. Inspection
-2. Purchasing
-3. Exit
-```
-
-**Inspection** performs the complete laptop diagnostic and shows hardware information, health indicators, component scores, and the overall health score. It does not show purchasing recommendations.
-
-**Purchasing** performs the inspection, asks for the laptop's asking price, and gives a simple BUY / DO NOT BUY decision based on the inspection health score. The asking price is displayed for context; LaptopInspectorPro no longer calculates a fair value or performs price negotiation suggestions.
-
-> **Important:** Run the launcher as Administrator for the most complete Windows hardware, device, security, and system information available on the machine.
+LaptopInspectorPro helps you inspect a Windows laptop before buying it. It collects hardware, system, security, storage, battery, driver, and thermal information, converts the results into an explainable health score, and provides a simple purchase decision based on the inspection.
 
 ---
 
-## Current version
+## 🚀 What LaptopInspectorPro Does
 
-**v0.4.0 — Inspection & Purchase Assessment**
+### 🔍 Inspection
 
-LaptopInspectorPro inspects a Windows laptop's hardware, software environment, health indicators, and security posture, then turns the results into readable component health scores and reports.
+Perform a complete diagnostic inspection and see CPU, GPU, RAM, storage, battery, display, network, device, security, driver and thermal information, along with component scores and an overall **0–100 health score**.
 
-## Features
+### 🛒 Purchasing
+
+The purchasing workflow runs the inspection, asks for the seller's asking price, and provides:
+
+- Overall health score
+- **BUY / DO NOT BUY** flag
+- Clear recommendation message
+- Confidence level
+- Detected inspection risks
+- Stated asking price for context
+
+The project deliberately **does not calculate fair value, market value, price multipliers, or negotiation prices**. The tool evaluates the laptop's condition instead of pretending to know its live market price.
+
+---
+
+## 🧠 How the Purchase Decision Works
+
+```text
+Laptop Inspection
+       ↓
+Component Health Analysis
+       ↓
+Overall Health Score (0–100)
+       ↓
+Score ≥ 85 ?
+   ┌───────┴───────┐
+  YES             NO
+   ↓               ↓
+ BUY          DO NOT BUY
+```
+
+The asking price is displayed in the final result, but it is **not converted into an artificial fair price**.
+
+Example:
+
+```text
+================ PURCHASING ASSESSMENT ================
+Overall health : 91/100
+Decision       : BUY
+Confidence     : High
+Asking price   : ₹28,000
+
+BUY — The laptop passed the health assessment with an overall score
+of 91/100. The stated asking price is ₹28,000.
+```
+
+**LaptopInspectorPro evaluates the laptop; the buyer decides whether the asking price makes sense for their situation.**
+
+---
+
+## 📊 Health Scoring
+
+The health engine combines component results into a weighted overall score from **0–100**.
+
+| Score | Grade |
+|---:|---|
+| 90–100 | Excellent |
+| 80–89 | Good |
+| 70–79 | Fair |
+| 60–69 | Needs Attention |
+| Below 60 | Poor |
+
+The score is diagnostic, not a synthetic benchmark score. When Windows cannot expose a particular hardware metric, that metric can be excluded instead of automatically treating the laptop as failed.
+
+---
+
+## 🛠️ Diagnostics
 
 ### Hardware
+
 - CPU information and current load
 - GPU / display adapter detection
-- RAM capacity, modules, speed, and usage
+- RAM capacity, modules, speed and usage
 - Physical disk detection
-- Volume/storage usage
+- Volume and storage usage
 - Battery capacity health, wear and cycle count when exposed by Windows
 - Display information
 - Audio devices
@@ -62,65 +97,43 @@ LaptopInspectorPro inspects a Windows laptop's hardware, software environment, h
 - Network adapters and link information
 - USB, Bluetooth and COM peripherals
 
-### Deep diagnostics
+### Deep Diagnostics
+
 - Physical storage health through Windows storage APIs
 - Storage reliability counters when supported
-- Disk temperature / wear / power-on hours when exposed
+- Disk temperature, wear and power-on hours when exposed
 - Plug-and-Play device problem detection
 - Thermal-zone readings when Windows exposes ACPI data
 - TPM / Secure Boot / firewall checks
 - Driver health summary
 
-### Inspection
-Inspection mode is strictly diagnostic. It shows:
+---
 
-- Complete inspection summary
-- Overall health score
-- Individual component scores
-- System and Windows information
-- CPU, GPU, RAM and storage details
-- Battery details including cycle count when available
-- Storage health details
-- Display, audio and camera details
-- Network and device details
-- Security and driver health
-- Thermal information
+## ▶️ Run LaptopInspectorPro
 
-After the summary, you can choose **View each result** to open detailed information for every subsystem.
+Clone the repository or download the repository source from GitHub and extract it locally.
 
-Inspection does **not** show BUY, DO NOT BUY, asking-price, or purchase-decision results.
+Open the project folder and run:
 
-### Purchasing
-Purchasing is a separate workflow. It asks for the laptop's asking price and provides:
+```text
+Run_LaptopInspectorPro_AsAdmin.bat
+```
 
-- Overall health score
-- BUY / DO NOT BUY flag
-- Clear recommendation message
-- Confidence level
-- Inspection risk flags
-- Stated asking price for context
+Right-click the launcher and choose **Run as administrator**. The launcher requests Administrator privileges when required and starts LaptopInspectorPro.
 
-The purchasing workflow **does not calculate an estimated fair value, market value, price multiplier, or negotiation price**. The decision is based on the laptop's diagnostic health assessment.
+Then choose:
 
-### Scoring
-The health engine combines component results into a weighted overall score from 0–100 and assigns a grade:
+```text
+1. Inspection
+2. Purchasing
+3. Exit
+```
 
-- **90–100:** Excellent
-- **80–89:** Good
-- **70–79:** Fair
-- **60–69:** Needs Attention
-- **Below 60:** Poor
+> **Important:** Administrator access is recommended for the most complete hardware, device, security and system information available from Windows.
 
-The score is diagnostic rather than a benchmark score. Missing hardware telemetry is excluded rather than automatically treated as a failure.
+---
 
-### Reports
-Full inspections can generate:
-
-- JSON — machine-readable complete results
-- TXT — human-readable report
-- HTML — browser-friendly report
-
-## Developer Run
+## 💻 Developer Run
 
 For development or testing, open PowerShell in the repository folder:
 
@@ -147,7 +160,19 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\LaptopInspector.ps1 -Mode Report
 ```
 
-## Architecture
+---
+
+## 📄 Reports
+
+Full inspections can generate:
+
+- **JSON** — machine-readable complete results
+- **TXT** — human-readable report
+- **HTML** — browser-friendly report
+
+---
+
+## 🏗️ Architecture
 
 ```text
 LaptopInspectorPro/
@@ -182,15 +207,28 @@ LaptopInspectorPro/
     └── ARCHITECTURE.md
 ```
 
-## Design principles
+---
 
-1. **Read-only diagnostics first.** Inspection should not modify system configuration.
-2. **Graceful degradation.** Hardware telemetry varies by laptop vendor and Windows edition; unavailable sensors are reported as unavailable.
-3. **Modular collectors.** Each subsystem is isolated so it can be improved without rewriting the application controller.
-4. **Machine-readable output.** Reports are structured so future UI and web dashboards can consume them.
-5. **Explainable scoring.** Scores are component-based and weighted, not a mystery number.
+## 🎯 Design Principles
 
-## License
+1. **Read-only diagnostics first** — Inspection should not modify system configuration.
+2. **Graceful degradation** — Hardware telemetry varies by laptop vendor and Windows edition.
+3. **Modular collectors** — Each subsystem is isolated so it can be improved independently.
+4. **Machine-readable output** — Reports are structured for future UI and web dashboards.
+5. **Explainable scoring** — The overall score comes from component-level health data.
+6. **Honest purchase guidance** — The tool reports laptop health and gives a BUY / DO NOT BUY flag without pretending to know a live market price.
+
+---
+
+## 📌 Current Version
+
+**v0.4.0 — Inspection & Purchase Assessment**
+
+LaptopInspectorPro is an evolving project focused on making second-hand Windows laptop inspection faster, clearer and more reliable.
+
+---
+
+## 📜 License
 
 LaptopInspectorPro is licensed under the MIT License.
 
