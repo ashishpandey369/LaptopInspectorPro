@@ -2,8 +2,7 @@
 param(
     [ValidateSet('Interactive','Inspection','Report','Purchase')]
     [string]$Mode = 'Interactive',
-    [string]$ReportPath = '',
-    [Nullable[double]]$AskingPriceINR
+    [string]$ReportPath = ''
 )
 
 $ErrorActionPreference = 'SilentlyContinue'
@@ -193,9 +192,6 @@ function Show-LIPPurchaseResult($assessment) {
     Write-Host ("Overall health : {0}/100" -f $assessment.OverallScore)
     Write-Host "Decision       : $($assessment.Verdict)" -ForegroundColor $(if($assessment.ShouldBuy){'Green'}else{'Red'})
     Write-Host "Confidence     : $($assessment.Confidence)"
-    if($null -ne $assessment.AskingPriceINR){
-        Write-Host ("Asking price   : ₹{0:N0}" -f $assessment.AskingPriceINR)
-    }
     Write-Host "`n$($assessment.RecommendationMessage)" -ForegroundColor $(if($assessment.ShouldBuy){'Green'}else{'Red'})
     if($assessment.RiskFlags.Count){ Write-Host "`nRisk flags:" -ForegroundColor Yellow; $assessment.RiskFlags | ForEach-Object { Write-Host " - $_" } } else { Write-Host "`nNo major inspection risk flags detected." -ForegroundColor Green }
 }
@@ -204,10 +200,7 @@ function Invoke-LIPPurchase {
     Show-LIPPleaseWait
     $data = Invoke-LIPInspection
     Clear-Host
-    $price = Read-Host 'Enter asking price in INR'
-    $parsed = $null
-    if([double]::TryParse($price,[ref]$parsed) -and $parsed -gt 0){ Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data -AskingPriceINR $parsed) }
-    else { Write-Host 'Invalid price. Purchasing assessment requires a valid asking price.' -ForegroundColor Red }
+    Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data)
 }
 
 if ($Mode -eq 'Interactive') {
@@ -229,9 +222,8 @@ if ($Mode -eq 'Interactive') {
 } elseif ($Mode -eq 'Purchase') {
     Show-LIPPleaseWait
     $data = Invoke-LIPInspection
-    if($null -eq $AskingPriceINR -or $AskingPriceINR -le 0){ throw 'Purchase mode requires -AskingPriceINR with a value greater than zero.' }
     Clear-Host
-    Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data -AskingPriceINR $AskingPriceINR)
+    Show-LIPPurchaseResult (Get-LIPPurchaseAssessment -Results $data)
 } elseif ($Mode -eq 'Report') {
     Show-LIPPleaseWait
     $data = Invoke-LIPInspection
