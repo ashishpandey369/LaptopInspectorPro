@@ -191,12 +191,12 @@ function Show-LIPInspection($data) {
 function Show-LIPPurchaseResult($assessment) {
     Write-Host "`n================ PURCHASING ASSESSMENT ================" -ForegroundColor Cyan
     Write-Host ("Overall health : {0}/100" -f $assessment.OverallScore)
-    Write-Host "Verdict        : $($assessment.Verdict)" -ForegroundColor $(if($assessment.Verdict -eq 'BUY'){'Green'}elseif($assessment.Verdict -eq 'NEGOTIATE'){'Yellow'}else{'Red'})
+    Write-Host "Decision       : $($assessment.Verdict)" -ForegroundColor $(if($assessment.ShouldBuy){'Green'}else{'Red'})
     Write-Host "Confidence     : $($assessment.Confidence)"
     if($null -ne $assessment.AskingPriceINR){
         Write-Host ("Asking price   : ₹{0:N0}" -f $assessment.AskingPriceINR)
-        if($assessment.EstimatedFairValueINR){ Write-Host ("Fair-value heuristic: ₹{0:N0}" -f $assessment.EstimatedFairValueINR); Write-Host "Price verdict  : $($assessment.PriceVerdict)" }
     }
+    Write-Host "`n$($assessment.RecommendationMessage)" -ForegroundColor $(if($assessment.ShouldBuy){'Green'}else{'Red'})
     if($assessment.RiskFlags.Count){ Write-Host "`nRisk flags:" -ForegroundColor Yellow; $assessment.RiskFlags | ForEach-Object { Write-Host " - $_" } } else { Write-Host "`nNo major inspection risk flags detected." -ForegroundColor Green }
 }
 
