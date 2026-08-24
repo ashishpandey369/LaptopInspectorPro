@@ -197,7 +197,6 @@ LaptopInspectorPro/
 │   ├── GPU.ps1
 │   ├── Network.ps1
 │   ├── Ports.ps1
-│   ├── Purchase.ps1
 │   ├── RAM.ps1
 │   ├── Report.ps1
 │   ├── Score.ps1
